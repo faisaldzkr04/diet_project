@@ -26,8 +26,8 @@ git.exe remote add origin https://github.com/faisaldzkr04/diet_project.git >nul 
 git.exe remote set-url origin https://github.com/faisaldzkr04/diet_project.git
 
 echo.
-echo [5/5] Mengirim perubahan ke GitHub...
-git.exe push -u origin main
+echo [5/5] Mengirim perubahan ke GitHub (Force Push)...
+git.exe push -u origin main --force
 
 if %errorlevel% equ 0 (
     echo.
