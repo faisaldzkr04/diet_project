@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Style Umum */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1F4529, #47663B); /* Gradasi hijau alami */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Login */
+        .login-container {
+            background: #E8ECD7; /* Krem */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        /* Judul */
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #1F4529; /* Hijau Gelap */
+        }
+
+        /* Input Group */
+        .input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #47663B; /* Hijau Olive */
+            border-radius: 5px;
+            padding: 5px;
+            background: #FFFFFF; /* Putih */
+            margin-bottom: 15px;
+        }
+
+        .input-group i {
+            padding: 10px;
+            color: #47663B; /* Hijau Olive */
+        }
+
+        .input-group input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        /* Tombol Login */
+        .login-btn {
+            background: #1F4529; /* Hijau Gelap */
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #47663B; /* Hijau Olive */
+        }
+
+        /* Pesan Error */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login Admin</h2>
+
+        {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <i class="fa fa-user"></i>
+                <input type="text" name="username" id="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username.trim() === "" || password.trim() === "") {
+                alert("Username dan password harus diisi!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Makanan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Style Umum */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #E8ECD7; /* Krem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .add-container {
+            background: #FFFFFF; /* Putih */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        /* Judul */
+        h1 {
+            color: #1F4529; /* Hijau Gelap */
+            margin-bottom: 20px;
+        }
+
+        /* Form */
+        .input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #47663B;
+            border-radius: 5px;
+            padding: 8px;
+            background: #E8ECD7;
+            margin-bottom: 15px;
+        }
+
+        .input-group i {
+            padding: 10px;
+            color: #47663B;
+        }
+
+        .input-group input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        /* Tombol */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .add-btn {
+            background: #1F4529;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #47663B;
+        }
+
+        .back-btn {
+            background: #EED3B1;
+            color: #1F4529;
+        }
+
+        .back-btn:hover {
+            background: #E8ECD7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="add-container">
+        <h1>Tambah Makanan</h1>
+        
+        {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <i class="fa fa-utensils"></i>
+                <input type="text" name="name" id="name" placeholder="Nama Makanan" required oninput="capitalizeWords(this)">
+            </div>            
+
+            <div class="input-group">
+                <i class="fa fa-bread-slice"></i>
+                <input type="text" name="carbs" id="carbs" placeholder="Karbohidrat (g)" required oninput="formatDecimal(this)">
+            </div>
+
+            <div class="input-group">
+                <i class="fa fa-drumstick-bite"></i>
+                <input type="text" name="protein" id="protein" placeholder="Protein (g)" required oninput="formatDecimal(this)">
+            </div>
+
+            <div class="input-group">
+                <i class="fa fa-bacon"></i>
+                <input type="text" name="fat" id="fat" placeholder="Lemak (g)" required oninput="formatDecimal(this)">
+            </div>
+
+            <!-- Input Serat -->
+            <div class="input-group">
+                <i class="fa fa-leaf"></i>
+                <input type="text" name="fiber" id="fiber" placeholder="Serat (g)" required oninput="formatDecimal(this)">
+            </div>
+
+            <!-- Input Natrium -->
+            <div class="input-group">
+                <i class="fa fa-sack-xmark"></i>
+                <input type="text" name="sodium" id="sodium" placeholder="Natrium (mg)" required oninput="formatDecimal(this)">
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn add-btn"><i class="fa fa-plus"></i> Tambah</button>
+                <a href="{% url 'admin_page' %}" class="btn back-btn"><i class="fa fa-arrow-left"></i> Kembali</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function capitalizeWords(input) {
+            input.value = input.value.replace(/\b\w/g, function (char) {
+                return char.toUpperCase();
+            });
+        }
+        
+        function formatDecimal(input) {
+            input.value = input.value.replace(/[^0-9.,]/g, ''); // Hanya angka, koma, dan titik
+            if (input.value.includes(",")) {
+                input.value = input.value.replace(",", "."); // Ganti koma dengan titik
+            }
+            const parts = input.value.split(".");
+            if (parts.length > 2) {
+                input.value = parts[0] + "." + parts.slice(1).join(""); // Hapus titik kedua
+            }
+            if (parts[1] && parts[1].length > 2) {
+                input.value = parts[0] + "." + parts[1].substring(0, 2); // Batasi dua angka desimal
+            }
+        }
+
+        function validateForm() {
+            var name = document.getElementById("name").value.trim();
+            var carbs = document.getElementById("carbs").value.trim();
+            var protein = document.getElementById("protein").value.trim();
+            var fat = document.getElementById("fat").value.trim();
+            var fiber = document.getElementById("fiber").value.trim();
+            var sodium = document.getElementById("sodium").value.trim();
+
+            if (name === "" || carbs === "" || protein === "" || fat === "" || fiber === "" || sodium === "") {
+                alert("Semua kolom harus diisi!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Style Umum */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #E8ECD7; /* Krem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .admin-container {
+            background: #FFFFFF; /* Putih Bersih */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        /* Header */
+        h1 {
+            color: #1F4529; /* Hijau Gelap */
+        }
+
+        /* Tombol */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #1F4529; /* Hijau Gelap */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #47663B; /* Hijau Olive */
+        }
+
+        /* Tabel */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #47663B; /* Hijau Olive */
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1F4529; /* Hijau Gelap */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #EED3B1; /* Beige Muda */
+        }
+
+        tr:hover {
+            background: #47663B; /* Hijau Olive */
+            color: white;
+        }
+
+        /* Tombol Aksi */
+        .action-btn {
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 2px;
+            display: inline-block;
+        }
+
+        .update-btn {
+            background: #47663B; /* Hijau Olive */
+            color: white;
+        }
+
+        .delete-btn {
+            background: #D32F2F; /* Merah untuk kontras */
+            color: white;
+        }
+
+        .update-btn:hover {
+            background: #1F4529; /* Hijau lebih gelap */
+        }
+
+        .delete-btn:hover {
+            background: #B71C1C;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h1>Halaman Admin</h1>
+
+        <div class="button-container">
+            <a href="{% url 'logout_page' %}" class="btn"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            <a href="{% url 'add_food_page' %}" class="btn"><i class="fa fa-plus"></i> Tambah Makanan</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Karbohidrat (g)</th>
+                    <th>Protein (g)</th>
+                    <th>Lemak (g)</th>
+                    <th>Serat (g)</th>
+                    <th>Natrium (mg)</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in foods %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ food.name }}</td>
+                        <td>{{ food.carbs|floatformat:2 }}</td>
+                        <td>{{ food.protein|floatformat:2 }}</td>
+                        <td>{{ food.fat|floatformat:2 }}</td>
+                        <td>{{ food.fiber|floatformat:2 }}</td>
+                        <td>{{ food.sodium|floatformat:0 }}</td>
+                        <td>
+                            <a href="{% url 'update_food_page' food.pk %}" class="action-btn update-btn">
+                                <i class="fa fa-edit"></i> Update
+                            </a>
+                            <a href="{% url 'delete_food' food.pk %}" class="action-btn delete-btn" onclick="return confirmDelete('{{ food.name }}')">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>            
+        </table>
+    </div>
+
+    <script>
+        function confirmDelete(foodName) {
+            return confirm("Apakah Anda yakin ingin menghapus makanan '" + foodName + "'?");
+        }
+    </script>
+
+</body>
+</html>

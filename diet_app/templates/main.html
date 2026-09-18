@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan AHP</title>
+    <style>
+        /* Style Umum */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #E8ECD7; /* Krem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            background: #FFFFFF; /* Putih */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Judul */
+        h1, h2 {
+            color: #1F4529; /* Hijau Gelap */
+            margin-bottom: 20px;
+        }
+
+        /* Tombol */
+        .btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+            background: #1F4529;
+            color: white;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box; /* Mencegah padding menambah ukuran */
+            display: block; /* Supaya tombol memenuhi container */
+            margin-bottom: 10px; /* Tambahkan jarak antara tombol */
+        }
+
+        .btn:hover {
+            background: #47663B;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Selamat Datang</h1>
+    <p>Silakan pilih halaman yang ingin Anda kunjungi:</p>
+    <a href="{% url 'user_page' %}" class="btn">Halaman User</a>
+    <a href="{% url 'admin_page' %}" class="btn">Halaman Admin</a>
+</div>
+
+</body>
+</html>
